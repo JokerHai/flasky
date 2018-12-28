@@ -45,7 +45,7 @@
 
     浏览器输出：
 
-        this is project index
+        This Is Project Index
 
     项目搭建成功
 
