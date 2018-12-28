@@ -1,4 +1,27 @@
 # flasky
+
+ 结构说明：
+
+     flasky/
+    ├── app //程序包
+    │   ├── api //接口包
+    │   │   └── __init__.py
+    │   ├── auth
+    │   │   └── __init__.py
+    │   ├── __init__.py
+    │   ├── main
+    │   │   ├── errors.py
+    │   │   ├── __init__.py
+    │   │   └── views.py
+    │   └── models.py
+    ├── config.py
+    ├── manage.py
+    ├── README.md
+    ├── requirements
+    │   └── common.txt
+    └── tests
+        └── __init__.py
+
  项目启动步骤
 
     使用数据迁移命令创建数据库

@@ -3,9 +3,9 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 
+from  flask import render_template
 from ..main import main
 
 @main.route('/',methods = ['GET'])
 def index():
-
-    return 'this is project index'
+    return  render_template("index.html")
