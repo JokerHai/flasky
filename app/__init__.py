@@ -3,13 +3,20 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 from flask import Flask
+
+import  redis
+
 from flask_sqlalchemy import SQLAlchemy
+
+from sqlalchemy.orm import Session
 
 from config import config
 
-
+from flask_wtf.csrf import CSRFProtect
 
 db = SQLAlchemy()
+
+redis_store = None
 
 def create_app(config_name):
 
@@ -20,6 +27,9 @@ def create_app(config_name):
 
     config[config_name].init_app(app)
 
+    #CSFR保护APP
+
+    CSRFProtect(app)
 
     #注册蓝图
 
@@ -37,6 +47,14 @@ def create_app(config_name):
     app.register_blueprint(api_blueprint,url_prefix ='/api')
 
     db.init_app(app)
+
+    # 配置redis
+    global redis_store
+
+    redis_store = redis.StrictRedis(host=config[config_name].REDIS_HOST, port=config[config_name].REDIS_PORT)
+
+    # 设置session保存位置
+    Session(app)
 
     return  app
 

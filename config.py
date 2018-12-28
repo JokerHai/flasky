@@ -3,6 +3,7 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 
+import redis
 
 class Config:
     # 密钥
@@ -29,8 +30,23 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
+    #redis配置
 
+    REDIS_HOST = 'localhost'
 
+    REDIS_PORT = "6379"
+
+    # flask_session的配置信息
+    SESSION_TYPE = "redis"  # 指定 session 保存到 redis 中
+
+    # 让 cookie 中的 session_id 被加密签名处理
+    SESSION_USE_SIGNER = True
+
+    # 使用 redis 的实例
+    SESSION_REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
+
+    # session 的有效期，单位是秒
+    PERMANENT_SESSION_LIFETIME = 86400
 
     @staticmethod
     def init_app(app):
@@ -40,8 +56,6 @@ class Config:
 class DevelopmentConfig(Config):
 
     DEBUG = True
-
-    type(Config.MYSQL_DB_PORT)
 
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://"+\
         Config.MYSQL_DB_USERNAME+":"+Config.MYSQL_DB_PASSWORD+"@"+Config.MYSQL_DB_HOST+":"+Config.MYSQL_DB_PORT+"/"+Config.MYSQL_DB_NAME
