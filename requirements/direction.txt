@@ -1,0 +1,15 @@
+#flasky 启动说明
+
+python3 manage.py runserver -d
+
+
+#创建数据库
+
+使用数据迁移命令创建数据库
+
+
+python manage.py db migrate 提交修改
+
+python manage.py db upgrade 执行修改
+
+
