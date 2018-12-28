@@ -6,4 +6,4 @@ from ..v1 import api
 
 @api.route('/')
 def index():
-    return 'this is project api'
+    return 'This Is Project Api'

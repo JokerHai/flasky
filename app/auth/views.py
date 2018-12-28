@@ -7,4 +7,4 @@ from  . import auth
 
 @auth.route('/')
 def index():
-    return 'this is ahth index'
+    return 'This Is Auth Index'
