@@ -2,20 +2,24 @@
 
  结构说明：
 
-     flasky/
-    ├── app //程序包
+    flasky/  //程序包
+    ├── app
     │   ├── api //接口包
     │   │   └── __init__.py
-    │   ├── auth
+    │   ├── auth //认证，授权
     │   │   └── __init__.py
     │   ├── __init__.py
-    │   ├── main
+    │   ├── main // py程序包
     │   │   ├── errors.py
     │   │   ├── __init__.py
     │   │   └── views.py
-    │   └── models.py
-    ├── config.py
-    ├── manage.py
+    │   ├── models.py //数据库模型
+    │   ├── static
+    │   │   └── timg.jpeg
+    │   └── templates
+    │       └── index.html
+    ├── config.py //全局配置文件
+    ├── manage.py //启动程序
     ├── README.md
     ├── requirements
     │   └── common.txt
