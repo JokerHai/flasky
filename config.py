@@ -8,6 +8,23 @@ class Config:
     # 密钥
     SECRET_KEY = "QWE123!@#"
 
+    # MYSQL
+
+    # sqlHost地址
+    MYSQL_DB_HOST = 'localhost'
+
+    # sql用户名
+    MYSQL_DB_USERNAME = 'root'
+
+    # sql密码
+    MYSQL_DB_PASSWORD = 'mysql'
+
+    # sql端口
+    MYSQL_DB_PORT = "3306"
+
+    # dbName
+    MYSQL_DB_NAME = 'my_db'
+
     # 该字段增加了大量的开销,会被禁用,建议设置为False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -24,7 +41,10 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
 
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:mysql@172.16.150.128:3306/my_db"
+    type(Config.MYSQL_DB_PORT)
+
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://"+\
+        Config.MYSQL_DB_USERNAME+":"+Config.MYSQL_DB_PASSWORD+"@"+Config.MYSQL_DB_HOST+":"+Config.MYSQL_DB_PORT+"/"+Config.MYSQL_DB_NAME
 
 
 
