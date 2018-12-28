@@ -9,7 +9,7 @@ class Config:
     # 密钥
     SECRET_KEY = "QWE123!@#"
 
-    # MYSQL
+    # MYSQL配置
 
     # sqlHost地址
     MYSQL_DB_HOST = 'localhost'
@@ -31,7 +31,6 @@ class Config:
 
 
     #redis配置
-
     REDIS_HOST = 'localhost'
 
     REDIS_PORT = "6379"
