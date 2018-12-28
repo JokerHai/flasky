@@ -9,7 +9,3 @@ from ..main import main
 def index():
 
     return 'this is project index'
-
-@main.route('/user')
-def user():
-    return 'this is user Controller'
