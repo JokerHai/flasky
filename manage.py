@@ -2,7 +2,6 @@
 # 项目启动文件
 # @Author  : joker
 # @Date    : 2018-12-27
-
 from app import create_app, db
 
 from app.models import User
