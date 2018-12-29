@@ -3,8 +3,6 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 
-
-
 from app import create_app, db
 
 from app.models import User
@@ -26,4 +24,4 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-    manager.run()
+    app.run()
