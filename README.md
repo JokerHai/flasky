@@ -38,7 +38,7 @@
 
  启动项目服务
 
-     python3 manage.py runserver -d
+     python manage.py runserver -d
 
     浏览器访问：http://127.0.0.1:5000/
 
