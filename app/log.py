@@ -6,9 +6,6 @@ import datetime
 import logging
 from logging.handlers import RotatingFileHandler
 
-
-
-
 def setup_log(level_name):
     """配置日志"""
 
