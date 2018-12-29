@@ -15,7 +15,7 @@
     │   │   └── views.py
     │   ├── models.py //数据库模型
     │   ├── static
-    │   │   └── timg.jpeg
+    │   │   └── ting.jpeg
     │   └── templates
     │       └── index.html
     ├── config.py //全局配置文件
