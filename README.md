@@ -4,27 +4,33 @@
 
     flasky/  //程序包
     ├── app
-    │   ├── api //接口包
-    │   │   └── __init__.py
-    │   ├── auth //认证，授权
-    │   │   └── __init__.py
+    │   ├── api  //api包
+    │   │   └── v1
+    │   │       ├── __init__.py
+    │   │       └── views.py
+    │   ├── auth    //认证 授权
+    │   │   ├── __init__.py
+    │   │   └── views.py
     │   ├── __init__.py
-    │   ├── main // py程序包
+    │   ├── log.py
+    │   ├── main  //py程序包
     │   │   ├── errors.py
     │   │   ├── __init__.py
     │   │   └── views.py
-    │   ├── models.py //数据库模型
+    │   ├── models.py   //数据库模型
     │   ├── static
     │   │   └── ting.jpeg
     │   └── templates
     │       └── index.html
     ├── config.py //全局配置文件
-    ├── manage.py //启动程序
+    ├── logs      //日志
+    ├── manage.py  //启动文件
     ├── README.md
     ├── requirements
     │   └── common.txt
-    └── tests //单元测试
+    └── tests
         └── __init__.py
+
 
  项目启动步骤
 
