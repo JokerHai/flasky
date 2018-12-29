@@ -2,7 +2,7 @@
 # 项目配置文件
 # @Author  : joker
 # @Date    : 2018-12-27
-
+import logging
 import redis
 
 class Config:
@@ -47,11 +47,15 @@ class Config:
     # session 的有效期，单位是秒
     PERMANENT_SESSION_LIFETIME = 86400
 
+
+    #默认日志等级
+    LOG_LEVEL = logging.DEBUG
+
     @staticmethod
     def init_app(app):
         pass
 
-
+#开发环境配置文件
 class DevelopmentConfig(Config):
 
     DEBUG = True
@@ -59,9 +63,18 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://"+\
         Config.MYSQL_DB_USERNAME+":"+Config.MYSQL_DB_PASSWORD+"@"+Config.MYSQL_DB_HOST+":"+Config.MYSQL_DB_PORT+"/"+Config.MYSQL_DB_NAME
 
+class ProductionConfig(Config):
 
+    #生产模式下的配置
+    LOG_LEVEL = logging.ERROR
+
+    @classmethod
+    def init_app(cls,app):
+
+        Config.init_app(app)
 
 config = {
     'development' : DevelopmentConfig,
+    'production'  : ProductionConfig,
     'default'     : DevelopmentConfig
 }

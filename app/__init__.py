@@ -5,10 +5,13 @@
 from flask import Flask
 
 import  redis
+from flask import abort
 
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.orm import Session
+
+from app.log import setup_log
 
 from config import config
 
@@ -56,6 +59,9 @@ def create_app(config_name):
 
     # 设置session保存位置
     Session(app)
+
+    #配置日志
+    setup_log(config[config_name].LOG_LEVEL)
 
     return  app
 
