@@ -1,0 +1,7 @@
+INFO _internal.py:87  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO _internal.py:87  * Restarting with stat
+WARNING _internal.py:87  * Debugger is active!
+INFO _internal.py:87  * Debugger PIN: 530-119-325
+INFO _internal.py:87 127.0.0.1 - - [29/Dec/2018 17:02:10] "GET / HTTP/1.1" 200 -
+INFO _internal.py:87  * Detected change in '/Users/joker/Public/flasky/manage.py', reloading
+INFO _internal.py:87  * Restarting with stat
