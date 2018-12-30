@@ -5,16 +5,10 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_session import Session
-
 from redis import StrictRedis
-
 from flask_sqlalchemy import SQLAlchemy
-
-
 from app.log import setup_log
-
 from config import config
-
 from flask_wtf.csrf import CSRFProtect
 
 bootstrap = Bootstrap()
@@ -37,20 +31,6 @@ def create_app(config_name):
 
     CSRFProtect(app)
 
-    #注册蓝图
-
-    from .main import main as main_blueprint
-
-    app.register_blueprint(main_blueprint)
-
-    from .auth import auth as auth_blueprint
-
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
-
-    from .api.v1 import api as api_blueprint
-
-    app.register_blueprint(api_blueprint,url_prefix ='/api')
-
     db.init_app(app)
 
     #将bootstrap加入app中
@@ -67,6 +47,20 @@ def create_app(config_name):
 
     #配置日志
     setup_log(config.get(config_name).LOG_LEVEL)
+
+    #注册蓝图
+
+    from .main import main as main_blueprint
+
+    app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    from .api.v1 import api as api_blueprint
+
+    app.register_blueprint(api_blueprint,url_prefix ='/api')
 
     return  app
 
