@@ -2,7 +2,8 @@
 #创建APP 应用工厂模式
 # @Author  : joker
 # @Date    : 2018-12-27
-from flask import Flask, session
+from flask import Flask
+from flask_session import Session
 
 from redis import StrictRedis
 
@@ -25,9 +26,9 @@ def create_app(config_name):
 
     #加载配置文件
 
-    app.config.from_object(config[config_name])
+    app.config.from_object(config.get(config_name))
 
-    config[config_name].init_app(app)
+    config.get(config_name).init_app(app)
 
     #CSFR保护APP
 
@@ -55,10 +56,10 @@ def create_app(config_name):
     redis_store = StrictRedis(host=config[config_name].REDIS_HOST, port=config[config_name].REDIS_PORT)
 
     # 设置session保存位置
-    session(app)
+    Session(app)
 
     #配置日志
-    setup_log(config[config_name].LOG_LEVEL)
+    setup_log(config.get(config_name).LOG_LEVEL)
 
     return  app
 
