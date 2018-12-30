@@ -2,13 +2,12 @@
 #创建APP 应用工厂模式
 # @Author  : joker
 # @Date    : 2018-12-27
-from flask import Flask
+from flask import Flask, session
 
-import  redis
+from redis import StrictRedis
 
 from flask_sqlalchemy import SQLAlchemy
 
-from sqlalchemy.orm import Session
 
 from app.log import setup_log
 
@@ -53,10 +52,10 @@ def create_app(config_name):
     # 配置redis
     global redis_store
 
-    redis_store = redis.StrictRedis(host=config[config_name].REDIS_HOST, port=config[config_name].REDIS_PORT)
+    redis_store = StrictRedis(host=config[config_name].REDIS_HOST, port=config[config_name].REDIS_PORT)
 
     # 设置session保存位置
-    Session(app)
+    session(app)
 
     #配置日志
     setup_log(config[config_name].LOG_LEVEL)

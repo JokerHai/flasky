@@ -3,7 +3,7 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 import logging
-import redis
+from  redis import StrictRedis
 
 class Config:
     # 密钥
@@ -42,7 +42,7 @@ class Config:
     SESSION_USE_SIGNER = True
 
     # 使用 redis 的实例
-    SESSION_REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
+    SESSION_REDIS = StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
 
     # session 的有效期，单位是秒
     PERMANENT_SESSION_LIFETIME = 86400
