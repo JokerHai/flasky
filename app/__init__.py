@@ -3,6 +3,7 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_session import Session
 
 from redis import StrictRedis
@@ -15,6 +16,8 @@ from app.log import setup_log
 from config import config
 
 from flask_wtf.csrf import CSRFProtect
+
+bootstrap = Bootstrap()
 
 db = SQLAlchemy()
 
@@ -49,6 +52,10 @@ def create_app(config_name):
     app.register_blueprint(api_blueprint,url_prefix ='/api')
 
     db.init_app(app)
+
+    #将bootstrap加入app中
+
+    bootstrap.init_app(app)
 
     # 配置redis
     global redis_store
