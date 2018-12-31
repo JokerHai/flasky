@@ -7,4 +7,4 @@ from ..main import main
 
 @main.route('/',methods = ['GET'])
 def index():
-    return  render_template("index.html")
+    return  render_template("site/index.html")
