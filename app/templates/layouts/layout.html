@@ -6,7 +6,12 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reset.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.12.4.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/index.js') }}"></script>
+    <script>
+        var jsroot = "http://127.0.0.1:5000"
+    </script>
 {% endblock %}
 {% block navbar %}
     <div class="header_con">
@@ -53,5 +58,9 @@
             电话：010-****888 京ICP备*******8号
         </p>
     </div>
+
+    <!-- 注册表单 -->
+    <form class="register_form_con">
+    </form>
     {{ super() }}
 {% endblock %}
