@@ -25,22 +25,6 @@ $(function () {
         $("#register-password-err").hide();
     });
 
-
-    // 点击输入框，提示文字上移
-    // $('.form_group').on('click focusin',function(){
-    // 	$(this).children('.input_tip').animate({'top':-5,'font-size':12},'fast').siblings('input').focus().parent().addClass('hotline');
-    // })
-    //
-    // // 输入框失去焦点，如果输入框为空，则提示文字下移
-    // $('.form_group input').on('blur focusout',function(){
-    // 	$(this).parent().removeClass('hotline');
-    // 	var val = $(this).val();
-    // 	if(val=='')
-    // 	{
-    // 		$(this).siblings('.input_tip').animate({'top':22,'font-size':14},'fast');
-    // 	}
-    // })
-
     $('.form_group').on('click', function () {
         $(this).children('input').focus()
     })
@@ -138,64 +122,6 @@ $(function () {
          })
          */
     })
-
-
-    // TODO 注册按钮点击
-    $(".register_form_con").submit(function (e) {
-        // 阻止默认提交操作,不让其往默认的action提交
-        e.preventDefault()
-
-        // 取到用户输入的内容
-        var mobile = $("#register_mobile").val()
-        var smscode = $("#smscode").val()
-        var password = $("#register_password").val()
-
-        if (!mobile) {
-            $("#register-mobile-err").show();
-            return;
-        }
-        if (!smscode) {
-            $("#register-sms-code-err").show();
-            return;
-        }
-        if (!password) {
-            $("#register-password-err").html("请填写密码!");
-            $("#register-password-err").show();
-            return;
-        }
-
-        if (password.length < 6) {
-            $("#register-password-err").html("密码长度不能少于6位");
-            $("#register-password-err").show();
-            return;
-        }
-
-        // 发起注册请求
-        //拼接请求参数
-        var params = {
-            "mobile": mobile,
-            "sms_code": smscode,
-            "password": password
-        }
-        /*
-         $.ajax({
-         url:'/passport/register',
-         type:'post',
-         data:JSON.stringify(params),
-         contentType:'application/json',
-         headers:{'X-CSRFToken':getCookie('csrf_token')},
-         success: function (resp) {
-         //判断是否注册成功
-         if(resp.errno == '0'){
-         //重新加载当前页面
-         window.location.reload()
-         }else{
-         alert(resp.errmsg);
-         }
-         }
-         })
-         */
-    })
 })
 
 //退出登陆
@@ -223,7 +149,7 @@ function generateImageCode() {
      imageCodeId = generateUUID();
 
      //2.拼接图片url地址
-     image_url = jsroot+'/auth/image_code?cur_id='+imageCodeId + "&pre_id="+preimageCodeId
+     image_url = jsroot+'/auth/captcha_image?cur_id='+imageCodeId + "&pre_id="+preimageCodeId
 
      //3.将地址设置到image标签的src属性中,为image_url
      $('.get_pic_code').attr('src',image_url)
@@ -338,4 +264,41 @@ function generateUUID() {
         return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
+}
+/**
+ * 去除空格
+ */
+function gtrim(txt) {
+    if (txt == undefined)
+        return "";
+    return txt.replace(/(^\s*)|(\s*$)/g, "");
+}
+function checkTel(mobile) {
+    var isPhone = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+    var isMob = /^((\+?86)|(\(\+86\)))?(13[0123456789][0-9]{8}|14[0123456789][0-9]{8}|15[0123456789][0-9]{8}|17[0123456789][0-9]{8}|18[0123456789][0-9]{8}|147[0-9]{8}|1349[0-9]{7}|16[0123456789][0-9]{8}|19[0123456789][0-9]{8})$/;
+    if (isMob.test(mobile) || isPhone.test(mobile)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+/**
+ * ajax请求封装 add by hd
+ */
+function handledata(method, dataurl, params, datatype,functionname) {
+    jQuery.ajax({
+        type: method,
+        url: dataurl,
+        data: params,
+        dataType: datatype,
+        headers:{'X-CSRFToken':getCookie('csrf_token')},
+        timeout: 200000,
+        cache: false,
+        error: function (a, b, c) {
+            return;
+        },
+        success: function (data) {
+            functionname(data);
+        }
+    });
 }

@@ -4,6 +4,7 @@
 # @Date    : 2018-12-30
 #网站地址
 HOME_URL = "http://127.0.0.1:5000/"
+
 # 图片验证码Redis有效期， 单位：秒
 IMAGE_CODE_REDIS_EXPIRES = 300
 

@@ -4,25 +4,22 @@
         <a href="javascript:;" class="shutoff"></a>
     </div>
     <div class="form_group">
-        <input type="text" name="mobile" autocomplete="off" id="register_mobile" class="phone_input">
-        <div class="input_tip">手机号</div>
-        <div id="register-mobile-err" class="error_tip">手机号不能为空</div>
+        <input type="text" name="mobile" autocomplete="off" id="register_mobile" class="phone_input" placeholder = " 手机号" onfocus="user_mobile_err_content()" onblur="return check_mobile(false)">
+        <div id="register-mobile-err" class="error_tip"></div>
     </div>
     <div class="form_group">
-        <input type="text" name="code_pwd" id="imagecode" class="code_pwd">
-        <div class="input_tip">图形验证码</div>
-        <img src="{{ url_for('static',filename='images/pic_code.png') }}" class="get_pic_code" onclick="generateImageCode()">
-        <div id="register-image-code-err" class="error_tip">图形码不能为空</div>
+        <input type="text" name="code_pwd" id="imageCaptchaValue" class="code_pwd" placeholder = "图形验证码" onfocus="user_imageCaptchaValue_tip_content()" onblur="return check_image_captcha(false)">
+        <img src="{{ url_for('static',filename='images/pic_code.png') }}" class="get_pic_code"
+             onclick="generateImageCode()">
+        <div id="user_imageCaptcha_err" class="error_tip"></div>
     </div>
     <div class="form_group">
-        <input type="text" name="smscode" id="smscode" class="code_pwd">
-        <div class="input_tip">手机验证码</div>
+        <input type="text" name="smscode" id="smscode" class="code_pwd" placeholder = "手机验证码">
         <a href="javascript:;" class="get_code" onclick="sendSMSCode()">点击获取验证码</a>
         <div id="register-sms-code-err" class="error_tip">验证码不能为空</div>
     </div>
     <div class="form_group">
-        <input type="password" name="password" id="register_password" class="pass_input">
-        <div class="input_tip">密码(不少于6位)</div>
+        <input type="password" name="password" id="register_password" class="pass_input" placeholder="密码(不少于6位)">
         <div id="register-password-err" class="error_tip">密码不能为空</div>
     </div>
     <div class="form_group2 clearfix">
@@ -35,9 +32,4 @@
 </div>
 <div class="mask"></div>
 
-<script>
-    $('.shutoff').click(function () {
-        $(this).closest('form').hide();
-    })
-    generateImageCode()
-</script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/register.js') }}"></script>
