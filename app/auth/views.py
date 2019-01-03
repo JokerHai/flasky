@@ -60,14 +60,11 @@ def check_image_captcha():
         flag_captcha = redis_store.get("image_code:%s" % image_code_id).decode()
 
         if flag_captcha == image_captcha:
-
             return jsonify(status=RET.OK, errmsg="成功")
-
         else:
             return jsonify(status=RET.DATAERR, errmsg="验证码错误，请重新输入")
     except Exception as e:
         current_app.logger.error(e)
-
         return jsonify(status=RET.SERVERERR, errmsg="数据异常，请联系管理员")
 
 
@@ -150,9 +147,7 @@ def sms_code():
         # 10. 返回响应
         return jsonify(status=RET.OK, errmsg="短信发送成功")
     except Exception as e:
-
         current_app.logger.error(e)
-
         return jsonify(status=RET.DBERR, errmsg="删除redis图片验证码失败")
 
 
@@ -174,9 +169,7 @@ def check_msg_pwd():
             return jsonify(status=RET.DBERR, errmsg="手机验证码错误，请重新输入")
         else:
             redis_store.delete("sms_code:%s" % register_mobile)
-
             return jsonify(status=RET.OK, errmsg="验证码验证成功")
     except Exception as e:
         current_app.logger.error(e)
-
         return jsonify(status=RET.DBERR, errmsg="数据错误，请联系管理员")
