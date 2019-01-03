@@ -29,19 +29,24 @@ def check_mobile():
     try:
         # 获取参数
         identity = request.form.get("identity")
+
         if not identity:
             return jsonify(status=RET.PARAMERR, errmsg="请输入中国大陆手机号,其它用户不可见")
+
         if common.check_mobile(identity) is False:
             return jsonify(status=RET.DATAERR, errmsg="手机格式不正确")
+
         # 效验用户是否已经注册
         user = User.query.filter_by(mobile=identity).first()
+
         if user is not None:
             return jsonify(status=RET.DATAEXIST, errmsg="您已注册，可进行登录操作")
 
         return jsonify(status=RET.OK, errmsg="成功")
     except Exception as e:
         current_app.logger.error(e)
-    return jsonify(status=RET.DBERR, errmsg="数据异常，请联系管理员")
+
+        return jsonify(status=RET.DBERR, errmsg="数据异常，请联系管理员")
 
 
 @auth.route('/check_image_captcha', methods=['POST'])
@@ -60,11 +65,16 @@ def check_image_captcha():
         flag_captcha = redis_store.get("image_code:%s" % image_code_id).decode()
 
         if flag_captcha == image_captcha:
+
             return jsonify(status=RET.OK, errmsg="成功")
+
         else:
+
             return jsonify(status=RET.DATAERR, errmsg="验证码错误，请重新输入")
+
     except Exception as e:
         current_app.logger.error(e)
+
         return jsonify(status=RET.SERVERERR, errmsg="数据异常，请联系管理员")
 
 
