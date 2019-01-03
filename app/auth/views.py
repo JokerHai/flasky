@@ -45,7 +45,6 @@ def check_mobile():
         return jsonify(status=RET.OK, errmsg="成功")
     except Exception as e:
         current_app.logger.error(e)
-
         return jsonify(status=RET.DBERR, errmsg="数据异常，请联系管理员")
 
 
@@ -74,7 +73,6 @@ def check_image_captcha():
 
     except Exception as e:
         current_app.logger.error(e)
-
         return jsonify(status=RET.SERVERERR, errmsg="数据异常，请联系管理员")
 
 
@@ -149,11 +147,16 @@ def sms_code():
             return jsonify(status=RET.DBERR, errmsg="操作数据库失败")
         # 生成一个随机短信验证码，判断验证码是否发送成功
         verity_code = "%06d" % random.randint(0, 999999)
+
         if verity_code:
+
             redis_flag = redis_store.set("sms_code:%s" % mobile, verity_code, constants.SMS_CODE_REDIS_EXPIRES)
+
             print(verity_code)
+
             if redis_flag is False:
                 return jsonify(status=RET.DBERR, errmsg="图片验证码保存到redis失败")
+
         # 10. 返回响应
         return jsonify(status=RET.OK, errmsg="短信发送成功")
     except Exception as e:
