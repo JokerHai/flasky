@@ -14,13 +14,10 @@ from ..models import User
 from . import auth
 
 
-
-
 # 弹出注册页面
 @auth.route('/register_view', methods=['GET'])
 def register_view():
     return render_template("auth/register_view.html")
-
 
 
 @auth.route('/check_mobile', methods=['POST'])
@@ -46,7 +43,8 @@ def check_mobile():
         current_app.logger.error(e)
     return jsonify(status=RET.DBERR, errmsg="数据异常，请联系管理员")
 
-@auth.route('/check_image_captcha',methods = ['POST'])
+
+@auth.route('/check_image_captcha', methods=['POST'])
 def check_image_captcha():
     """
     校验图片验证码是否正确
@@ -56,22 +54,23 @@ def check_image_captcha():
         image_captcha = request.form.get("image_captcha")
         image_code_id = request.form.get("image_code_id")
 
-        if not  image_captcha:
+        if not image_captcha:
+            return jsonify(status=RET.PARAMERR, errmsg="请输入验证码")
 
-            return jsonify(status = RET.PARAMERR,errmsg = "请输入验证码")
-
-        flag_captcha = redis_store.get("image_code:%s"%image_code_id).decode()
+        flag_captcha = redis_store.get("image_code:%s" % image_code_id).decode()
 
         if flag_captcha == image_captcha:
 
-            return jsonify(status = RET.OK, errmsg = "成功")
+            return jsonify(status=RET.OK, errmsg="成功")
 
         else:
-            return jsonify (status = RET.DATAERR, errmsg = "验证码错误，请重新输入")
+            return jsonify(status=RET.DATAERR, errmsg="验证码错误，请重新输入")
     except Exception as e:
         current_app.logger.error(e)
 
         return jsonify(status=RET.SERVERERR, errmsg="数据异常，请联系管理员")
+
+
 # 获取图片验证码
 @auth.route('/captcha_image')
 def captcha_image():
@@ -143,7 +142,7 @@ def sms_code():
             return jsonify(status=RET.DBERR, errmsg="操作数据库失败")
         # 生成一个随机短信验证码，判断验证码是否发送成功
         verity_code = "%06d" % random.randint(0, 999999)
-        if verity_code :
+        if verity_code:
             redis_flag = redis_store.set("sms_code:%s" % mobile, verity_code, constants.SMS_CODE_REDIS_EXPIRES)
             print(verity_code)
             if redis_flag is False:
@@ -156,24 +155,25 @@ def sms_code():
 
         return jsonify(status=RET.DBERR, errmsg="删除redis图片验证码失败")
 
-@auth.route('/check_msg_pwd',methods = ["POST"])
+
+@auth.route('/check_msg_pwd', methods=["POST"])
 def check_msg_pwd():
     try:
-        sms_code_pwd    = request.form.get("sms_code")
+        sms_code_pwd = request.form.get("sms_code")
         register_mobile = request.form.get("register_mobile")
 
         if not sms_code_pwd:
-            return jsonify(status = RET.PARAMERR, errmsg = "手机验证码为空")
+            return jsonify(status=RET.PARAMERR, errmsg="手机验证码为空")
 
-        if not  register_mobile:
-            return jsonify(status = RET.PARAMERR, errmsg = "手机号为空")
+        if not register_mobile:
+            return jsonify(status=RET.PARAMERR, errmsg="手机号为空")
 
-        redis_flag =redis_store.get("sms_code:%s"%register_mobile).decode()
+        redis_flag = redis_store.get("sms_code:%s" % register_mobile).decode()
 
         if redis_flag != sms_code_pwd:
-            return jsonify(status = RET.DBERR, errmsg = "手机验证码错误，请重新输入" )
+            return jsonify(status=RET.DBERR, errmsg="手机验证码错误，请重新输入")
         else:
-            redis_store.delete("sms_code:%s"%register_mobile)
+            redis_store.delete("sms_code:%s" % register_mobile)
 
             return jsonify(status=RET.OK, errmsg="验证码验证成功")
     except Exception as e:
