@@ -8,7 +8,7 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.12.4.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
     <script>
-        var jsroot = "http://127.0.0.1:5000"
+        var jsroot = "http://127.0.0.1:5000";
     </script>
 {% endblock %}
 {% block navbar %}
@@ -71,9 +71,8 @@
             </p>
         </div>
         <!-- 注册表单 -->
-        <form class="register_form_con">
-
-        </form>
+        <form class="register_form_con"></form>
+        <input type="hidden" value="" id="image_code_id">
     {% endblock %}
 {% endblock %}
 {% block scripts %}

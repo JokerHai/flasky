@@ -6,6 +6,12 @@ import re
 
 # 效验手机号
 def check_mobile(mobile):
-    return mobile if re.match("1[3-9]\d{9}", mobile) else False
+    if mobile is not None:
+        if re.match("1[3-9]\d{9}", mobile) is not None:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 

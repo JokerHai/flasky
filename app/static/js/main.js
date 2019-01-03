@@ -37,7 +37,7 @@ $(function () {
 
     // 打开注册框
     $('.register_btn').click(function () {
-        $.get(jsroot+'/auth/register_view', function (chartHtml) {
+        $.get(jsroot + '/auth/register_view', function (chartHtml) {
             $('.register_form_con').html(chartHtml).show();
         });
     })
@@ -137,100 +137,25 @@ function logout() {
      })
      */
 }
-
-
-var imageCodeId = ""
-var preimageCodeId = ""
-
 // TODO 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 function generateImageCode() {
 
-     //1.生成一个随机字符串
-     imageCodeId = generateUUID();
+    var hidden_code_id = $("#image_code_id").val();
 
-     //2.拼接图片url地址
-     image_url = jsroot+'/auth/captcha_image?cur_id='+imageCodeId + "&pre_id="+preimageCodeId
+    //1.生成一个随机字符串
+    imageCodeId = generateUUID();
 
-     //3.将地址设置到image标签的src属性中,为image_url
-     $('.get_pic_code').attr('src',image_url)
+    //2.拼接图片url地址
+    image_url = jsroot + '/auth/captcha_image?cur_id=' + imageCodeId+ "&pre_id=" + hidden_code_id
 
-     //4.记录上一次的编号
-     preimageCodeId = imageCodeId
+    //3.将地址设置到image标签的src属性中,为image_url
+    $('.get_pic_code').attr('src', image_url)
+
+    //4.记录上一次的编号
+    if(hidden_code_id != imageCodeId){
+        $("#image_code_id").val(imageCodeId);
+    }
 }
-
-// 发送短信验证码
-function sendSMSCode() {
-    // 校验参数，保证输入框有数据填写
-    //移除按钮点击事件
-    $(".get_code").removeAttr("onclick");
-    var mobile = $("#register_mobile").val();
-    if (!mobile) {
-        $("#register-mobile-err").html("请填写正确的手机号！");
-        $("#register-mobile-err").show();
-        $(".get_code").attr("onclick", "sendSMSCode();");
-        return;
-    }
-    var imageCode = $("#imagecode").val();
-    if (!imageCode) {
-        $("#image-code-err").html("请填写验证码！");
-        $("#image-code-err").show();
-        $(".get_code").attr("onclick", "sendSMSCode();");
-        return;
-    }
-
-    // TODO 发送短信验证码
-    //拼接参数
-    var params = {
-        "mobile": mobile,
-        "image_code": imageCode,
-        "image_code_id": imageCodeId
-    }
-
-    //发送获取短信请求
-    /*
-     $.ajax({
-     url:'/passport/sms_code',//请求地址
-     type:'post',
-     data:JSON.stringify(params),
-     contentType:'application/json',
-     headers:{'X-CSRFToken':getCookie('csrf_token')},
-     success: function (resp) {
-     //判断是否请求成功
-     if(resp.errno == '0'){
-
-     //定义倒计时时间
-     var num = 60;
-
-     //创建定时器
-     var t = setInterval(function () {
-
-     //判断是否倒计时结束
-     if(num == 1){
-     //清除定时器
-     clearInterval(t)
-     //设置标签点击事件,并设置内容
-     $(".get_code").attr("onclick",'sendSMSCode()');
-     $(".get_code").html('点击获取验证码');
-
-
-     }else{
-     //设置秒数
-     num -= 1;
-     $('.get_code').html(num + '秒');
-     }
-     },1000);//一秒走一次
-
-     }else{//发送失败
-     alert(resp.errmsg);
-     // 重新设置点击事件,更新图片验证码
-     $(".get_code").attr("onclick",'sendSMSCode()');
-     generateImageCode();
-     }
-     }
-     })
-     */
-}
-
 // 调用该函数模拟点击左侧按钮
 function fnChangeMenu(n) {
     var $li = $('.option_list li');
@@ -285,13 +210,13 @@ function checkTel(mobile) {
 /**
  * ajax请求封装 add by hd
  */
-function handledata(method, dataurl, params, datatype,functionname) {
+function handledata(method, dataurl, params, datatype, functionname) {
     jQuery.ajax({
         type: method,
         url: dataurl,
         data: params,
         dataType: datatype,
-        headers:{'X-CSRFToken':getCookie('csrf_token')},
+        headers: {'X-CSRFToken': getCookie('csrf_token')},
         timeout: 200000,
         cache: false,
         error: function (a, b, c) {
@@ -301,4 +226,15 @@ function handledata(method, dataurl, params, datatype,functionname) {
             functionname(data);
         }
     });
+}
+/**
+ *效验密码输入密码必须包含两种规则
+ */
+function checkPassword(pwd_input) {
+    var isPassword = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{6,16}$/;
+    if (isPassword.test(pwd_input)) {
+        return true;
+    } else {
+        return false;
+    }
 }

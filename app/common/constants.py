@@ -6,10 +6,10 @@
 HOME_URL = "http://127.0.0.1:5000/"
 
 # 图片验证码Redis有效期， 单位：秒
-IMAGE_CODE_REDIS_EXPIRES = 300
+IMAGE_CODE_REDIS_EXPIRES = 120
 
 # 短信验证码Redis有效期，单位：秒
-SMS_CODE_REDIS_EXPIRES = 300
+SMS_CODE_REDIS_EXPIRES = 120
 
 # 七牛空间域名
 QINIU_DOMIN_PREFIX = "http://oyucyko3w.bkt.clouddn.com/"

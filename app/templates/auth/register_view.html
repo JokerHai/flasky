@@ -4,28 +4,28 @@
         <a href="javascript:;" class="shutoff"></a>
     </div>
     <div class="form_group">
-        <input type="text" name="mobile" autocomplete="off" id="register_mobile" class="phone_input" placeholder = " 手机号" onfocus="user_mobile_err_content()" onblur="return check_mobile(false)">
+        <input type="text" name="mobile" autocomplete="off" id="register_mobile" class="phone_input" placeholder = "可用于登录和找回密码" onfocus="user_mobile_err_content()" onblur="return check_mobile(false)">
         <div id="register-mobile-err" class="error_tip"></div>
     </div>
     <div class="form_group">
-        <input type="text" name="code_pwd" id="imageCaptchaValue" class="code_pwd" placeholder = "图形验证码" onfocus="user_imageCaptchaValue_tip_content()" onblur="return check_image_captcha(false)">
+        <input type="text" name="code_pwd" id="imageCaptchaValue" class="code_pwd" placeholder = "请输入图片验证码" onfocus="user_imageCaptchaValue_err_content()" onblur="return check_image_captcha(false)">
         <img src="{{ url_for('static',filename='images/pic_code.png') }}" class="get_pic_code"
              onclick="generateImageCode()">
         <div id="user_imageCaptcha_err" class="error_tip"></div>
     </div>
     <div class="form_group">
-        <input type="text" name="smscode" id="smscode" class="code_pwd" placeholder = "手机验证码">
+        <input type="text" name="smscode" id="sms_code" class="code_pwd" placeholder = "请输入手机验证码" onfocus="user_code_pwd_err_content()" onblur="return check_code_pwd(false)">
         <a href="javascript:;" class="get_code" onclick="sendSMSCode()">点击获取验证码</a>
-        <div id="register-sms-code-err" class="error_tip">验证码不能为空</div>
+        <div id="register-sms-code-err" class="error_tip"></div>
     </div>
     <div class="form_group">
-        <input type="password" name="password" id="register_password" class="pass_input" placeholder="密码(不少于6位)">
-        <div id="register-password-err" class="error_tip">密码不能为空</div>
+        <input type="password" name="password" id="register_password" class="pass_input" placeholder="请设置登录密码" onfocus="user_register_password_err_content()" onblur="return check_pwd(false)">
+        <div id="register-password-err" class="error_tip"></div>
     </div>
     <div class="form_group2 clearfix">
-        <input type="checkbox" class="agree_input" checked>
+        <input type="checkbox" class="agree_input" checked="true" onclick="cl()" name="gc_vip">
         <p>同意使用条款，并已阅读"跟帖评论自律管理承诺书"</p>
-        <div class="error_tip">请勾选</div>
+        <div class="error_tip" id="gc_vip_error"></div>
     </div>
     <input type="submit" name="" value="注 册" class="input_sub">
     <div class="down_link">已有账号？<a href="javascript:;" class="to_login">立即登录</a></div>
