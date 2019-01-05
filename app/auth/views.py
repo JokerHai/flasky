@@ -5,15 +5,105 @@
 import random
 
 from flask import current_app, render_template, request, make_response, jsonify
+from flask.ext.login import logout_user
+from flask_login import login_user
+
 from app import redis_store
 from app.common import constants
 from app.common import common
 from app.common.response_code import RET
 from app.vendors.captcha.captcha import captcha
+from .. import db
 from ..models import User
 from . import auth
 
 
+
+@auth.route('/login_view',methods = ['GET','POST'])
+def login_view():
+    return  render_template("auth/login_view.html")
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    try:
+        login_mobile = request.form.get('login_mobile')
+        login_password = request.form.get('login_password')
+
+        if not all([login_mobile,login_password]):
+            return jsonify(status=RET.PARAMERR, errmsg="参数不全")
+        login_flag = fork_login(login_mobile,login_password)
+
+        if login_flag:
+            return jsonify(status=RET.OK, errmsg="登陆成功")
+        else:
+            return jsonify(status=RET.DBERR, errmsg="账号密码错误")
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
+
+def fork_login(username,password):
+
+    user = User.query.filter_by(mobile=username).first()
+
+    if user is not None and user.check_password(password):
+        login_user(user,False)
+        return True
+    else:
+        return False
+@auth.route('/logout',methods = ['GET','POST'])
+def logout():
+    try:
+         logout_user();
+         return jsonify(status=RET.OK, errmsg="退出成功")
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
+
+@auth.route('/register',methods = ['GET','POST'])
+def register():
+    try:
+        user_nick_name   = request.form.get('user_nick_name')
+        mobile   = request.form.get('mobile')
+        iphone_code = request.form.get('sms_code')
+        password = request.form.get('user_password')
+
+
+        if not all([mobile,iphone_code,password,user_nick_name]):
+            return jsonify(status=RET.PARAMERR, errmsg="参数不合法")
+
+        redis_sms_code = redis_store.get("sms_code:%s"%mobile).decode()
+
+        if not redis_sms_code:
+            return jsonify(status=RET.PARAMERR, errmsg="短信验证码已经过期")
+
+        if iphone_code != redis_sms_code:
+            return jsonify(status=RET.DATAERR, errmsg="短信验证码填写错误")
+
+        flag_delete = redis_store.delete("sms_code:%s" % mobile)
+
+        if not flag_delete:
+            return jsonify(status=RET.DBERR, errmsg="短信验证码删除失败")
+
+        user = User(
+            nick_name = user_nick_name,
+
+            mobile    = mobile,
+
+            signature = '该用户很懒,什么都没写',
+
+            password = password
+        )
+        db.session.add(user)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
+
+    login_flag = fork_login(mobile,password)
+
+    if login_flag:
+        return jsonify(status=RET.OK, errmsg="注册成功")
+    else:
+        return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
 # 弹出注册页面
 @auth.route('/register_view', methods=['GET'])
 def register_view():
@@ -180,9 +270,10 @@ def check_msg_pwd():
 
         if redis_flag != sms_code_pwd:
             return jsonify(status=RET.DBERR, errmsg="手机验证码错误，请重新输入")
-        else:
+
             redis_store.delete("sms_code:%s" % register_mobile)
-            return jsonify(status=RET.OK, errmsg="验证码验证成功")
+
+        return jsonify(status=RET.OK, errmsg="验证码验证成功")
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(status=RET.DBERR, errmsg="数据错误，请联系管理员")

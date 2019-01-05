@@ -7,6 +7,7 @@ from flask_bootstrap import Bootstrap
 from flask_session import Session
 from redis import StrictRedis
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 from app.log import setup_log
 from config import config
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -17,6 +18,9 @@ db = SQLAlchemy()
 
 redis_store = None
 
+login_manager = LoginManager()
+
+login_manager.login_view = 'auth.fork_login'
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -36,6 +40,9 @@ def create_app(config_name):
     # 将bootstrap加入app中
 
     bootstrap.init_app(app)
+
+    #初始化登录组件
+    login_manager.init_app(app)
 
     # 配置redis
     global redis_store

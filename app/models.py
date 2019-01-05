@@ -1,9 +1,11 @@
 from datetime import datetime
+
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.common import constants
 
-from app import db
+from app import db, login_manager
 
 class BaseModel(object):
     """模型基类，为每个模型补充创建时间与更新时间"""
@@ -26,7 +28,7 @@ tb_user_follows = db.Table(
 )
 
 
-class User(BaseModel, db.Model):
+class User(UserMixin,BaseModel, db.Model):
     """用户"""
     __tablename__ = "info_user"
 
@@ -66,7 +68,7 @@ class User(BaseModel, db.Model):
     def password(self, value):
         self.password_hash = generate_password_hash(value)
 
-    def check_passowrd(self, password):
+    def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
     def to_dict(self):
@@ -91,7 +93,11 @@ class User(BaseModel, db.Model):
             "last_login": self.last_login.strftime("%Y-%m-%d %H:%M:%S"),
         }
         return resp_dict
-
+    def __repr__(self):
+        return '<User %r>' % self.nick_name
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class News(BaseModel, db.Model):
     """新闻"""

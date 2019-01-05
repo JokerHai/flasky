@@ -2,6 +2,8 @@
  *  注册相关js
  * Created by joker on 2019/1/2.
  */
+var bind_click_times = 0;
+var exist_nick_name_state = false;
 var exist_phone_state = false;
 var exist_image_code_state = false;
 var exist_code_pwd_state = false;
@@ -26,9 +28,41 @@ function user_register_password_err_content() {
         $("#register-password-err").html("请输入8-16位密码，数字、字母和符号至少包含两种").show();
     }
 }
+function user_nick_name_err_content() {
+    if (exist_nick_name_state === false) {
+        $("#register-nick-name-err").html("不超过7个汉字或者14个字母和符号").show();
+    }
+}
+/**
+ * 检查名字名称
+ * @param {type Boolean} is_submit
+ * @returns {Boolean}
+ */
+function check_nick_name(is_submit) {
+    var nick_name = gtrim($("#user_nick_name").val());
+    if (nick_name.length <= 0) {
+        if (is_submit) {
+            $("#register-nick-name-err").show();
+            $("#register-nick-name-err").html("不超过7个汉字或者14个字母和符号");
+            return false
+        } else {
+            $("#register-nick-name-err").hide();
+            $("#register-nick-name-err").html("");
+            exist_nick_name_state = true;
+        }
+    } else if (check_string_length(nick_name, 14) === false) {
+        $("#register-nick-name-err").show();
+        $("#register-nick-name-err").html("不超过7个汉字或者14个字母和符号");
+        return false;
+    } else {
+        $("#register-nick-name-err").hide();
+        $("#register-nick-name-err").html("");
+        exist_nick_name_state = true;
+    }
+}
 /**
  * 检查手机号是否合法
- * @param {type} is_submit
+ * @param {type Boolean} is_submit
  * @returns {Boolean}
  */
 function check_mobile(is_submit) {
@@ -96,27 +130,27 @@ function check_code_pwd(is_submit) {
             return true;
         }
     } else if (is_submit === false) {
-        var params = "sms_code=" + encodeURIComponent(sms_code)+"&register_mobile="+encodeURIComponent(register_mobile);
+        var params = "sms_code=" + encodeURIComponent(sms_code) + "&register_mobile=" + encodeURIComponent(register_mobile);
         handledata('post', jsroot + "/auth/check_msg_pwd", params, 'json', call_mag_pwd_results);
         return true;
     }
 }
 /**
  * 获取密码
- * @param {type} is_submit
- * @returns {Boolean}
+ * @param {type Boolean} is_submit
  */
-function check_pwd(is_swbmit) {
+function check_pwd(is_submit) {
     var user_password = gtrim($("#register_password").val());
     if (user_password.length <= 0) {
-        if (is_swbmit) {
+        if (is_submit) {
             $("#register-password-err").show();
             $("#register-password-err").html("请输入密码");
             return false;
         } else {
             $("#register-password-err").hide();
             $("#register-password-err").html("");
-            return  true;
+            exist_register_password = true;
+            return true;
         }
     } else if (user_password.length < 6 && user_password.length >= 0) {
         $("#register-password-err").show();
@@ -133,6 +167,7 @@ function check_pwd(is_swbmit) {
     } else {
         $("#register-password-err").hide();
         $("#register-password-err").html("");
+        exist_register_password = true;
         return true;
     }
 }
@@ -158,12 +193,12 @@ function callResults(msg_back) {
     }
 }
 function call_mag_pwd_results(msg_back) {
-    if(msg_back.status == "0"){
-         $("#user_imageCaptcha_err").hide();
-         $("#register-sms-code-err").html("");
-         exist_code_pwd_state = true;
-    }else{
-         $("#register-sms-code-err").html(msg_back.errmsg);
+    if (msg_back.status == "0") {
+        $("#user_imageCaptcha_err").hide();
+        $("#register-sms-code-err").html("");
+        exist_code_pwd_state = true;
+    } else {
+        $("#register-sms-code-err").html(msg_back.errmsg);
     }
 }
 // 发送短信验证码
@@ -252,65 +287,52 @@ $(function () {
     $('.shutoff').click(function () {
         $(this).closest('form').hide();
     })
-    // TODO 注册按钮点击
-    $(".register_form_con").submit(function (e) {
-        // 阻止默认提交操作,不让其往默认的action提交
-        e.preventDefault()
-
-        // 取到用户输入的内容
-        var mobile = $("#register_mobile").val()
-        var smscode = $("#smscode").val()
-        var password = $("#register_password").val()
-
-        if (!mobile) {
-            $("#register-mobile-err").show();
-            return;
-        }
-        if (!smscode) {
-            $("#register-sms-code-err").show();
-            return;
-        }
-        if (!password) {
-            $("#register-password-err").html("请填写密码!");
-            $("#register-password-err").show();
-            return;
-        }
-
-        if (password.length < 6) {
-            $("#register-password-err").html("密码长度不能少于6位");
-            $("#register-password-err").show();
-            return;
-        }
-
-        // 发起注册请求
-        //拼接请求参数
-        var params = {
-            "mobile": mobile,
-            "sms_code": smscode,
-            "password": password
-        }
-        /*
-         $.ajax({
-         url:'/passport/register',
-         type:'post',
-         data:JSON.stringify(params),
-         contentType:'application/json',
-         headers:{'X-CSRFToken':getCookie('csrf_token')},
-         success: function (resp) {
-         //判断是否注册成功
-         if(resp.errno == '0'){
-         //重新加载当前页面
-         window.location.reload()
-         }else{
-         alert(resp.errmsg);
-         }
-         }
-         })
-         */
-    })
-    // //点击输入框，提示文字上移
-    // $('.form_group').on('click focusin', function () {
-    //
+    // // 登录框和注册框切换
+    // $('.to_login').click(function () {
+    //     $('.login_form_con').show();
+    //     $('.register_form_con').hide();
     // })
     generateImageCode()
 })
+function ch_value(signup_key) {
+    if (bind_click_times > 0) {
+        alert('请稍等，正在处理中...')
+        return false;
+    }
+    bind_click_times = 1;
+    var params = '';
+    var data_url = jsroot + '/auth/register';
+    check_nick_name(true);
+    check_mobile(true);
+    check_image_captcha(true);
+    check_code_pwd(true);
+    check_pwd(true)
+    cl();
+    var state = exist_phone_state && exist_image_code_state && exist_code_pwd_state && exist_register_password && exist_nick_name_state;
+    if (state) {
+        var user_nick_name = $("#user_nick_name").val();
+        console.log(user_nick_name);
+        var mobile = $("#register_mobile").val();
+        var imageCaptchaValue = $("#imageCaptchaValue").val();
+        var sms_code = $("#sms_code").val()
+        var user_password = $("#register_password").val();
+        params = "mobile=" + encodeURIComponent(mobile) + "&sms_code="
+            + encodeURIComponent(sms_code) + "&user_password=" + user_password + "&user_nick_name=" + encodeURIComponent(user_nick_name)
+        handledata('post', data_url, params, 'json', register_response);
+    } else {
+        bind_click_times = 0;
+        return state;
+    }
+    return state;
+}
+/**
+ * 注册回调函数
+ */
+function register_response(msg_back) {
+    if (msg_back.status == "0") {
+        window.location.reload();
+    } else {
+        alert(msg_back.errmsg);
+        return false;
+    }
+}

@@ -2,60 +2,19 @@ $(function () {
 
     // 打开登录框
     $('.login_btn').click(function () {
-        $('.login_form_con').show();
+        $.get(jsroot + "/auth/login_view", function (chartHtml) {
+            $('.login_form_con').html(chartHtml).show();
+        })
     })
-    // 隐藏错误
-    $(".login_form #mobile").focus(function () {
-        $("#login-mobile-err").hide();
-    });
-    $(".login_form #password").focus(function () {
-        $("#login-password-err").hide();
-    });
-
-    $(".register_form #mobile").focus(function () {
-        $("#register-mobile-err").hide();
-    });
-    $(".register_form #imagecode").focus(function () {
-        $("#register-image-code-err").hide();
-    });
-    $(".register_form #smscode").focus(function () {
-        $("#register-sms-code-err").hide();
-    });
-    $(".register_form #password").focus(function () {
-        $("#register-password-err").hide();
-    });
-
-    $('.form_group').on('click', function () {
-        $(this).children('input').focus()
-    })
-
-    $('.form_group input').on('focusin', function () {
-        $(this).siblings('.input_tip').animate({'top': -5, 'font-size': 12}, 'fast')
-        $(this).parent().addClass('hotline');
-    })
-
-
     // 打开注册框
     $('.register_btn').click(function () {
         $.get(jsroot + '/auth/register_view', function (chartHtml) {
             $('.register_form_con').html(chartHtml).show();
         });
     })
-
-
-    // 登录框和注册框切换
-    $('.to_register').click(function () {
-        $('.login_form_con').hide();
-        $('.register_form_con').show();
-        generateImageCode()
+    $('.shutoff').click(function () {
+        $(this).closest('form').hide();
     })
-
-    // 登录框和注册框切换
-    $('.to_login').click(function () {
-        $('.login_form_con').show();
-        $('.register_form_con').hide();
-    })
-
     // 根据地址栏的hash值来显示用户中心对应的菜单
     var sHash = window.location.hash;
     if (sHash != '') {
@@ -80,6 +39,11 @@ $(function () {
         $(this).addClass('active').siblings().removeClass('active');
         $(this).find('a')[0].click()
     })
+    function user_mobile_err_content() {
+        if (exist_phone_state === false) {
+            $("#register-mobile-err").html("请输入中国大陆手机号,其它用户不可见").show();
+        }
+    }
 
     // TODO 登录表单提交
     $(".login_form_con").submit(function (e) {
@@ -126,16 +90,8 @@ $(function () {
 
 //退出登陆
 function logout() {
-    /*
-     $.ajax({
-     url:'/passport/logout',
-     type:'post',
-     headers:{'X-CSRFToken':getCookie('csrf_token')},
-     success:function (resp) {
-     window.location.reload()
-     }
-     })
-     */
+    handledata('post', jsroot + "/auth/logout", '', 'json', '');
+    window.location.reload()
 }
 // TODO 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 function generateImageCode() {
@@ -146,13 +102,13 @@ function generateImageCode() {
     imageCodeId = generateUUID();
 
     //2.拼接图片url地址
-    image_url = jsroot + '/auth/captcha_image?cur_id=' + imageCodeId+ "&pre_id=" + hidden_code_id
+    image_url = jsroot + '/auth/captcha_image?cur_id=' + imageCodeId + "&pre_id=" + hidden_code_id
 
     //3.将地址设置到image标签的src属性中,为image_url
     $('.get_pic_code').attr('src', image_url)
 
     //4.记录上一次的编号
-    if(hidden_code_id != imageCodeId){
+    if (hidden_code_id != imageCodeId) {
         $("#image_code_id").val(imageCodeId);
     }
 }
@@ -237,4 +193,26 @@ function checkPassword(pwd_input) {
     } else {
         return false;
     }
+}
+/* 检查字符的长度是否超出范围
+ * @param {type} string 计算的字符名
+ * @param {type} length 长度
+ * @returns {Boolean}
+ */
+function check_string_length(string, length) {
+    var w = 0;
+    var n = 1;
+    for (var i = 0; i < string.length; i++) {
+        var c = string.charCodeAt(i);
+        //单字节加1
+        if ((c >= 0x0001 && c <= 0x007e) || (0xff60 <= c && c <= 0xff9f)) {
+            w++;
+        } else {
+            w += 2;
+        }
+    }
+    if (w < n || w > length) {
+        return false;
+    }
+    return true;
 }
