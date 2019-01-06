@@ -25,18 +25,21 @@ def before_request():
                 and request.endpoint != 'static':
             return render_template("auth/unconfirmed.html")
 
-@auth.route('/login_view',methods = ['GET','POST'])
+
+@auth.route('/login_view', methods=['GET', 'POST'])
 def login_view():
-    return  render_template("auth/login_view.html")
+    return render_template("auth/login_view.html")
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     try:
         login_mobile = request.form.get('login_mobile')
         login_password = request.form.get('login_password')
 
-        if not all([login_mobile,login_password]):
+        if not all([login_mobile, login_password]):
             return jsonify(status=RET.PARAMERR, errmsg="参数不全")
-        login_flag = fork_login(login_mobile,login_password)
+        login_flag = fork_login(login_mobile, login_password)
 
         if login_flag:
             return jsonify(status=RET.OK, errmsg="登陆成功")
@@ -46,38 +49,40 @@ def login():
         current_app.logger.error(e)
         return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
 
-def fork_login(username,password):
 
+def fork_login(username, password):
     user = User.query.filter_by(mobile=username).first()
 
     if user is not None and user.check_password(password):
-        login_user(user,False)
+        login_user(user, False)
         return True
     else:
         return False
-@auth.route('/logout',methods = ['GET','POST'])
+
+
+@auth.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     try:
-         logout_user();
-         return jsonify(status=RET.OK, errmsg="退出成功")
+        logout_user();
+        return jsonify(status=RET.OK, errmsg="退出成功")
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
 
-@auth.route('/register',methods = ['GET','POST'])
+
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     try:
-        user_nick_name   = request.form.get('user_nick_name')
-        mobile   = request.form.get('mobile')
+        user_nick_name = request.form.get('user_nick_name')
+        mobile = request.form.get('mobile')
         iphone_code = request.form.get('sms_code')
         password = request.form.get('user_password')
 
-
-        if not all([mobile,iphone_code,password,user_nick_name]):
+        if not all([mobile, iphone_code, password, user_nick_name]):
             return jsonify(status=RET.PARAMERR, errmsg="参数不合法")
 
-        redis_sms_code = redis_store.get("sms_code:%s"%mobile).decode()
+        redis_sms_code = redis_store.get("sms_code:%s" % mobile).decode()
 
         if not redis_sms_code:
             return jsonify(status=RET.PARAMERR, errmsg="短信验证码已经过期")
@@ -90,29 +95,30 @@ def register():
         if not flag_delete:
             return jsonify(status=RET.DBERR, errmsg="短信验证码删除失败")
 
-        user = User(
-            nick_name = user_nick_name,
+        user = User(nick_name=user_nick_name,
 
-            mobile    = mobile,
+                    mobile=mobile,
 
-            signature = '该用户很懒,什么都没写',
+                    signature='该用户很懒,什么都没写',
 
-            password  = password,
+                    password=password,
 
-            confirmed = True
-        )
+                    confirmed=True
+                    )
         db.session.add(user)
         db.session.commit()
     except Exception as e:
         current_app.logger.error(e)
         return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
 
-    login_flag = fork_login(mobile,password)
+    login_flag = fork_login(mobile, password)
 
     if login_flag:
         return jsonify(status=RET.OK, errmsg="注册成功")
     else:
         return jsonify(status=RET.DBERR, errmsg="程序异常，请联系管理员")
+
+
 # 弹出注册页面
 @auth.route('/register_view', methods=['GET'])
 def register_view():

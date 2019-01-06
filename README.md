@@ -1,36 +1,33 @@
 # flasky
 
  结构说明：
-
-    flasky/  //程序包
-    ├── app
-    │   ├── api  //api包
-    │   │   └── v1
-    │   │       ├── __init__.py
-    │   │       └── views.py
-    │   ├── auth    //认证 授权
-    │   │   ├── __init__.py
-    │   │   └── views.py
-    │   ├── __init__.py
-    │   ├── log.py
-    │   ├── main  //py程序包
-    │   │   ├── errors.py
-    │   │   ├── __init__.py
-    │   │   └── views.py
-    │   ├── models.py   //数据库模型
-    │   ├── static
-    │   │   └── ting.jpeg
-    │   └── templates
-    │       └── index.html
-    ├── config.py //全局配置文件
-    ├── logs      //日志
-    ├── manage.py  //启动文件
-    ├── README.md
-    ├── requirements
-    │   └── common.txt
-    └── tests
-        └── __init__.py
-
+    flasky
+        ├── README.md
+        ├── app                 //程序包
+        │   ├── __init__.py     //flask 入口
+        │   ├── api             //api 包
+        │   ├── auth            // 认证授权
+        │   ├── common          //公共组件
+        │   ├── log.py          //日志
+        │   ├── main            //py程序包
+        │   ├── models.py       //数据模型
+        │   ├── static          //静态包
+        │   │   ├── css
+        │   │   ├── images
+        │   │   ├── js
+        │   ├── templates       //模板包
+        │   │   ├── 404.html
+        │   │   ├── 500.html
+        │   │   ├── auth
+        │   │   ├── layouts     //布局包
+        │   │   └── site
+        │   └── vendors         //第三方类库
+        │       └── captcha
+        ├── config.py           //全局配置文件
+        ├── logs                //日志包
+        ├── manage.py           //项目启动包
+        ├── requirements        //说明，敬告
+        └── tests               //单元测试
 
  项目启动步骤
 
@@ -77,3 +74,14 @@ Example Code:
     {% if current_user.is_authenticated %}
             current_user.属性值，即可调用出用户信息
     {% endif %}
+
+
+数据库更新命令：
+
+Example:
+
+python3 manage.py db history   //查看版本号
+
+python 文件 db migrate -m"新版本名(注释)"
+
+python 文件 db downgrade(upgrade) 版本号
