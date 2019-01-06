@@ -1,7 +1,7 @@
 # flasky
 
  结构说明：
-    flasky
+            flasky
         ├── README.md
         ├── app                 //程序包
         │   ├── __init__.py     //flask 入口
