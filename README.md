@@ -26,47 +26,8 @@
 	│   ├── models.py
 	│   ├── static
 	│   │   ├── css
-	│   │   │   ├── jquery.pagination.css
-	│   │   │   ├── main.css
-	│   │   │   └── reset.css
-	│   │   ├── favicon.ico
 	│   │   ├── images
-	│   │   │   ├── cat.jpg
-	│   │   │   ├── clock.png
-	│   │   │   ├── collect_icons.png
-	│   │   │   ├── comment_icon.png
-	│   │   │   ├── focus_icons.png
-	│   │   │   ├── hit_icon.png
-	│   │   │   ├── logo.png
-	│   │   │   ├── news_pic.jpg
-	│   │   │   ├── not_found.png
-	│   │   │   ├── person.png
-	│   │   │   ├── person01.png
-	│   │   │   ├── person02.png
-	│   │   │   ├── person03.png
-	│   │   │   ├── pic_code.png
-	│   │   │   ├── reply_icon.png
-	│   │   │   ├── shutoff.png
-	│   │   │   ├── tip_bg.png
-	│   │   │   ├── user_pic.png
-	│   │   │   ├── worm.jpg
-	│   │   │   └── zan_icon.png
 	│   │   ├── js
-	│   │   │   ├── detail.js
-	│   │   │   ├── index.js
-	│   │   │   ├── jquery-1.12.4.min.js
-	│   │   │   ├── jquery.form.min.js
-	│   │   │   ├── jquery.pagination.min.js
-	│   │   │   ├── main.js
-	│   │   │   ├── other.js
-	│   │   │   ├── register.js
-	│   │   │   ├── tinymce_setup.js
-	│   │   │   ├── user_base_info.js
-	│   │   │   ├── user_follow.js
-	│   │   │   ├── user_news_release.js
-	│   │   │   ├── user_pass_info.js
-	│   │   │   └── user_pic_info.js
-	│   │   └── ting.jpeg
 	│   ├── templates
 	│   │   ├── 404.html
 	│   │   ├── 500.html
@@ -84,9 +45,6 @@
 	│           ├── __init__.py
 	│           ├── captcha.py
 	│           └── fonts
-	│               ├── Arial.ttf
-	│               ├── Georgia.ttf
-	│               └── actionj.ttf
 	├── config.py
 	├── logs
 	├── manage.py
