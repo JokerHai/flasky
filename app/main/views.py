@@ -3,7 +3,7 @@
 # @Author  : joker
 # @Date    : 2018-12-27
 from  flask import render_template
-from flask_login import current_user, login_required
+from flask_login import current_user
 
 from ..main import main
 

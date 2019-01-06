@@ -40,6 +40,7 @@ class User(UserMixin,BaseModel, db.Model):
     last_login = db.Column(db.DateTime, default=datetime.now)  # 最后一次登录时间
     is_admin = db.Column(db.Boolean, default=False)
     signature = db.Column(db.String(512))  # 用户签名
+    confirmed = db.Column(db.Boolean, default=False)#用户是否被确认
     gender = db.Column(  # 订单的状态
         db.Enum(
             "MAN",  # 男
@@ -95,6 +96,11 @@ class User(UserMixin,BaseModel, db.Model):
         return resp_dict
     def __repr__(self):
         return '<User {}>'.format(self.nick_name)
+
+    def ping(self):
+        self.last_login = datetime.utcnow()
+        db.session.add(self)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

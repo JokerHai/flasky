@@ -4,7 +4,7 @@
 # @Date    : 2018-12-28
 import random
 from flask import current_app, render_template, request, make_response, jsonify
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app import redis_store
 from app.common import constants
 from app.common import common
@@ -15,6 +15,15 @@ from ..models import User
 from . import auth
 
 
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed \
+                and request.endpoint \
+                and request.blueprint != 'auth' \
+                and request.endpoint != 'static':
+            return render_template("auth/unconfirmed.html")
 
 @auth.route('/login_view',methods = ['GET','POST'])
 def login_view():
@@ -88,7 +97,9 @@ def register():
 
             signature = '该用户很懒,什么都没写',
 
-            password = password
+            password  = password,
+
+            confirmed = True
         )
         db.session.add(user)
         db.session.commit()
