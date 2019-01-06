@@ -2,56 +2,56 @@
 
  结构说明：
 
-		flasky/
-		├── README.md
-		├── app
-		│   ├── __init__.py
-		│   ├── api
-		│   │   └── v1
-		│   │       ├── __init__.py
-		│   │       └── views.py
-		│   ├── auth
-		│   │   ├── __init__.py
-		│   │   ├── forms.py
-		│   │   └── views.py
-		│   ├── common
-		│   │   ├── common.py
-		│   │   ├── constants.py
-		│   │   └── response_code.py
-		│   ├── log.py
-		│   ├── main
-		│   │   ├── __init__.py
-		│   │   ├── errors.py
-		│   │   └── views.py
-		│   ├── models.py
-		│   ├── static
-		│   │   ├── css
-		│   │   ├── images
-		│   │   ├── js
-		│   ├── templates
-		│   │   ├── 404.html
-		│   │   ├── 500.html
-		│   │   ├── auth
-		│   │   │   ├── login_view.html
-		│   │   │   ├── register_view.html
-		│   │   │   └── unconfirmed.html
-		│   │   ├── layouts
-		│   │   │   └── layout.html
-		│   │   └── site
-		│   │       └── index.html
-		│   └── vendors
-		│       ├── __init__.py
-		│       └── captcha
-		│           ├── __init__.py
-		│           ├── captcha.py
-		│           └── fonts
-		├── config.py
-		├── logs
-		├── manage.py
-		├── requirements
-		│   └── common.txt
-		└── tests
-		    └── __init__.py
+	flasky/
+	├── README.md
+	├── app
+	│   ├── __init__.py
+	│   ├── api
+	│   │   └── v1
+	│   │       ├── __init__.py
+	│   │       └── views.py
+	│   ├── auth
+	│   │   ├── __init__.py
+	│   │   ├── forms.py
+	│   │   └── views.py
+	│   ├── common
+	│   │   ├── common.py
+	│   │   ├── constants.py
+	│   │   └── response_code.py
+	│   ├── log.py
+	│   ├── main
+	│   │   ├── __init__.py
+	│   │   ├── errors.py
+	│   │   └── views.py
+	│   ├── models.py
+	│   ├── static
+	│   │   ├── css
+	│   │   ├── images
+	│   │   ├── js
+	│   ├── templates
+	│   │   ├── 404.html
+	│   │   ├── 500.html
+	│   │   ├── auth
+	│   │   │   ├── login_view.html
+	│   │   │   ├── register_view.html
+	│   │   │   └── unconfirmed.html
+	│   │   ├── layouts
+	│   │   │   └── layout.html
+	│   │   └── site
+	│   │       └── index.html
+	│   └── vendors
+	│       ├── __init__.py
+	│       └── captcha
+	│           ├── __init__.py
+	│           ├── captcha.py
+	│           └── fonts
+	├── config.py
+	├── logs
+	├── manage.py
+	├── requirements
+	│   └── common.txt
+	└── tests
+	    └── __init__.py
  项目启动步骤
 
     使用数据迁移命令创建数据库
