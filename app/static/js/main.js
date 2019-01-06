@@ -91,7 +91,7 @@ $(function () {
 //退出登陆
 function logout() {
     handledata('post', jsroot + "/auth/logout", '', 'json', '');
-    window.location.reload()
+    //window.location.reload()
 }
 // TODO 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 function generateImageCode() {
