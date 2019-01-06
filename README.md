@@ -1,6 +1,99 @@
 # flasky
 
  结构说明：
+ test/
+└── flasky
+    ├── README.md
+    ├── app
+    │   ├── __init__.py
+    │   ├── api
+    │   │   └── v1
+    │   │       ├── __init__.py
+    │   │       └── views.py
+    │   ├── auth
+    │   │   ├── __init__.py
+    │   │   ├── forms.py
+    │   │   └── views.py
+    │   ├── common
+    │   │   ├── common.py
+    │   │   ├── constants.py
+    │   │   └── response_code.py
+    │   ├── log.py
+    │   ├── main
+    │   │   ├── __init__.py
+    │   │   ├── errors.py
+    │   │   └── views.py
+    │   ├── models.py
+    │   ├── static
+    │   │   ├── css
+    │   │   │   ├── jquery.pagination.css
+    │   │   │   ├── main.css
+    │   │   │   └── reset.css
+    │   │   ├── favicon.ico
+    │   │   ├── images
+    │   │   │   ├── cat.jpg
+    │   │   │   ├── clock.png
+    │   │   │   ├── collect_icons.png
+    │   │   │   ├── comment_icon.png
+    │   │   │   ├── focus_icons.png
+    │   │   │   ├── hit_icon.png
+    │   │   │   ├── logo.png
+    │   │   │   ├── news_pic.jpg
+    │   │   │   ├── not_found.png
+    │   │   │   ├── person.png
+    │   │   │   ├── person01.png
+    │   │   │   ├── person02.png
+    │   │   │   ├── person03.png
+    │   │   │   ├── pic_code.png
+    │   │   │   ├── reply_icon.png
+    │   │   │   ├── shutoff.png
+    │   │   │   ├── tip_bg.png
+    │   │   │   ├── user_pic.png
+    │   │   │   ├── worm.jpg
+    │   │   │   └── zan_icon.png
+    │   │   ├── js
+    │   │   │   ├── detail.js
+    │   │   │   ├── index.js
+    │   │   │   ├── jquery-1.12.4.min.js
+    │   │   │   ├── jquery.form.min.js
+    │   │   │   ├── jquery.pagination.min.js
+    │   │   │   ├── main.js
+    │   │   │   ├── other.js
+    │   │   │   ├── register.js
+    │   │   │   ├── tinymce_setup.js
+    │   │   │   ├── user_base_info.js
+    │   │   │   ├── user_follow.js
+    │   │   │   ├── user_news_release.js
+    │   │   │   ├── user_pass_info.js
+    │   │   │   └── user_pic_info.js
+    │   │   └── ting.jpeg
+    │   ├── templates
+    │   │   ├── 404.html
+    │   │   ├── 500.html
+    │   │   ├── auth
+    │   │   │   ├── login_view.html
+    │   │   │   ├── register_view.html
+    │   │   │   └── unconfirmed.html
+    │   │   ├── layouts
+    │   │   │   └── layout.html
+    │   │   └── site
+    │   │       └── index.html
+    │   └── vendors
+    │       ├── __init__.py
+    │       └── captcha
+    │           ├── __init__.py
+    │           ├── captcha.py
+    │           └── fonts
+    │               ├── Arial.ttf
+    │               ├── Georgia.ttf
+    │               └── actionj.ttf
+    ├── config.py
+    ├── logs
+    ├── manage.py
+    ├── requirements
+    │   └── common.txt
+    └── tests
+        └── __init__.py
  项目启动步骤
 
     使用数据迁移命令创建数据库
