@@ -55,12 +55,15 @@
 
     项目搭建成功
 
-
  用户获取方法：
- is_authenticated：属性，True如果用户具有有效凭据或False其他。
- is_active：True如果用户的帐户处于活动状态或False其他情况下的属性。
- is_anonymous：False适用于普通用户和True特殊匿名用户的属性。
- get_id()：一种方法，以字符串形式返回用户的唯一标识符（unicode，如果使用Python 2）
+
+    is_authenticated：属性，True如果用户具有有效凭据或False其他。
+
+    is_active：True如果用户的帐户处于活动状态或False其他情况下的属性。
+
+    is_anonymous：False适用于普通用户和True特殊匿名用户的属性。
+
+    get_id()：一种方法，以字符串形式返回用户的唯一标识符（unicode，如果使用Python 2）
 
 用户权限效验：
 
@@ -71,6 +74,6 @@
 
 Example Code:
 
-{% if current_user.is_authenticated %}
-        current_user.属性值，即可调用出用户信息
-{% endif %}
+    {% if current_user.is_authenticated %}
+            current_user.属性值，即可调用出用户信息
+    {% endif %}
