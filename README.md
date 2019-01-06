@@ -4,27 +4,27 @@
 
 	flasky/
 	├── README.md
-	├── app
+	├── app       //程序包
 	│   ├── __init__.py
-	│   ├── api
+	│   ├── api   // api包
 	│   │   └── v1
 	│   │       ├── __init__.py
 	│   │       └── views.py
-	│   ├── auth
+	│   ├── auth  // 认证，授权
 	│   │   ├── __init__.py
 	│   │   ├── forms.py
 	│   │   └── views.py
-	│   ├── common
+	│   ├── common // 公共包
 	│   │   ├── common.py
 	│   │   ├── constants.py
 	│   │   └── response_code.py
-	│   ├── log.py
-	│   ├── main
+	│   ├── log.py //日志记录
+	│   ├── main  //py 程序包，
 	│   │   ├── __init__.py
 	│   │   ├── errors.py
 	│   │   └── views.py
-	│   ├── models.py
-	│   ├── static
+	│   ├── models.py  //数据模型
+	│   ├── static      //静态文件
 	│   │   ├── css
 	│   │   ├── images
 	│   │   ├── js
@@ -35,22 +35,22 @@
 	│   │   │   ├── login_view.html
 	│   │   │   ├── register_view.html
 	│   │   │   └── unconfirmed.html
-	│   │   ├── layouts
+	│   │   ├── layouts      //项目布局
 	│   │   │   └── layout.html
 	│   │   └── site
 	│   │       └── index.html
-	│   └── vendors
+	│   └── vendors  //第三方扩展包
 	│       ├── __init__.py
 	│       └── captcha
 	│           ├── __init__.py
 	│           ├── captcha.py
 	│           └── fonts
-	├── config.py
-	├── logs
-	├── manage.py
+	├── config.py   //全局配置文件包
+	├── logs        //日志包
+	├── manage.py   //项目包
 	├── requirements
 	│   └── common.txt
-	└── tests
+	└── tests      //单元测试
 	    └── __init__.py
  项目启动步骤
 
