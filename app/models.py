@@ -94,7 +94,7 @@ class User(UserMixin,BaseModel, db.Model):
         }
         return resp_dict
     def __repr__(self):
-        return '<User %r>' % self.nick_name
+        return '<User {}>'.format(self.nick_name)
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

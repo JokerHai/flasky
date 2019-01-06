@@ -3,11 +3,8 @@
 # @Author  : joker
 # @Date    : 2018-12-28
 import random
-
 from flask import current_app, render_template, request, make_response, jsonify
-from flask.ext.login import logout_user
-from flask_login import login_user
-
+from flask_login import login_user, logout_user, login_required
 from app import redis_store
 from app.common import constants
 from app.common import common
@@ -50,6 +47,7 @@ def fork_login(username,password):
     else:
         return False
 @auth.route('/logout',methods = ['GET','POST'])
+@login_required
 def logout():
     try:
          logout_user();
