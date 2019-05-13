@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 创建APP 应用工厂模式 1
+# 创建APP 应用工厂模式 2
 # @Author  : joker
 # @Date    : 2018-12-27
 from flask import Flask
